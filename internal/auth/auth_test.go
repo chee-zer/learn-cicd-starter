@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"errors"
 	"net/http"
 	"testing"
 )
@@ -13,7 +14,7 @@ func TestGetAPIKey(t *testing.T) {
 		name    string
 		args    args
 		want    string
-		wantErr bool
+		wantErr error
 	}{
 		{
 			name: "No auth header",
@@ -22,7 +23,7 @@ func TestGetAPIKey(t *testing.T) {
 				"Host":[]string{"example.com"},
 				},
 			},
-			wantErr: true,
+			wantErr: ErrNoAuthHeaderIncluded,
 		},
 		{
 			name: "malformed auth header",
@@ -32,7 +33,7 @@ func TestGetAPIKey(t *testing.T) {
     			"Authorization":[]string{"ApiKeymock-token-12345"},
 				},
 			},
-			wantErr: true,
+			wantErr: errors.New("malformed authorization header"),
 		},
 		{
 			name: "should work",
@@ -43,12 +44,13 @@ func TestGetAPIKey(t *testing.T) {
 				},
 			},
 			want: "mock-token-12345",
+			wantErr: nil,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			got, err := GetAPIKey(tt.args.headers)
-			if (err != nil) != tt.wantErr {
+			if (err != nil) && (err.Error() != tt.wantErr.Error()) {
 				t.Errorf("GetAPIKey() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
