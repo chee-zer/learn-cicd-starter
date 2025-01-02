@@ -51,11 +51,11 @@ func TestGetAPIKey(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			got, err := GetAPIKey(tt.args.headers)
 			if (err != nil) && (err.Error() != tt.wantErr.Error()) {
-				t.Errorf("GetAPIKey() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("GetAPIKey() gotError = %v, wantError = %v", err, tt.wantErr)
 				return
 			}
 			if got != tt.want {
-				t.Errorf("GetAPIKey() = %v, want %v", got, tt.want)
+				t.Errorf("GetAPIKey() got = %v, want = %v", got, tt.want)
 			}
 		})
 	}
