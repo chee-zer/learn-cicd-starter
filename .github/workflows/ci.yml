@@ -31,5 +31,10 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v5
 
-      - name: Format code
+      - name: Checks Formatting
         run: test -z $(go fmt ./...)
+
+      - name: Checks linting
+        uses: dominikh/staticcheck-action@v1
+        with:
+          version: "latest"
