@@ -20,7 +20,7 @@ func TestGetAPIKey(t *testing.T) {
 			name: "No auth header",
 			args: args{
 				headers: http.Header{
-				"Host":[]string{"example.com"},
+					"Host": []string{"example.com"},
 				},
 			},
 			wantErr: ErrNoAuthHeaderIncluded,
@@ -29,8 +29,8 @@ func TestGetAPIKey(t *testing.T) {
 			name: "malformed auth header",
 			args: args{
 				headers: http.Header{
-				"Host":[]string{"example.com"},
-    			"Authorization":[]string{"ApiKeymock-token-12345"},
+					"Host":          []string{"example.com"},
+					"Authorization": []string{"ApiKeymock-token-12345"},
 				},
 			},
 			wantErr: errors.New("malformed authorization header"),
@@ -39,11 +39,11 @@ func TestGetAPIKey(t *testing.T) {
 			name: "should work",
 			args: args{
 				headers: http.Header{
-				"Host":[]string{"example.com"},
-    			"Authorization":[]string{"ApiKey mock-token-12345"},
+					"Host":          []string{"example.com"},
+					"Authorization": []string{"ApiKey mock-token-12345"},
 				},
 			},
-			want: "mock-token-12345",
+			want:    "mock-token-12345",
 			wantErr: nil,
 		},
 	}
